@@ -1,5 +1,5 @@
 // TODO: import module bila dibutuhkan di sini
-
+const fs = require("fs");
 // ! JANGAN DIMODIFIKASI
 let file1 = "./data1.json";
 let file2 = "./data2.json";
@@ -18,8 +18,60 @@ let modifyFile3 = (val) => {
 
 // TODO: Kerjakan bacaData
 // gunakan variabel file1, file2, dan file3
-const bacaData = null;
+let array = [];
+let err = null;
+const bacaData = (fnCallBack) => {
+  let fileArray = [];
+  fileArray.push(file1);
+  fileArray.push(file2);
+  fileArray.push(file3);
+  readJsonFile(fileArray, array);
+  setTimeout(() => {
+    return fnCallBack(err, array);
+  }, 10);
+};
 
+// Read JSON File Function
+const readJsonFile = (jsonFile, array) => {
+  // Loop array of file
+  for (let i = 0; i < jsonFile.length; i++) {
+    // readFile
+    fs.readFile(jsonFile[i], { encoding: "utf8" }, (error, data) => {
+      if (error) {
+        err = error;
+        return err;
+      } else {
+        let res = JSON.parse(data);
+        let dat = findMessage(res);
+        let datArray = dat.split("");
+        datArray = datArray[1];
+        array[i] = datArray;
+        // push dataArray
+        return datArray;
+      }
+    });
+  }
+};
+
+// find key message on JSON Object
+const findMessage = (data, keys) => {
+  // console.log(data, keys)
+  let dat = data;
+  let key = Object.keys(dat);
+  if (key === undefined || key[0] === "message") {
+    return dat.message;
+  } else {
+    key = key[0];
+    dat = dat[0];
+    if (dat === undefined) {
+      dat = data;
+      // console.log(un,dat)
+      return findMessage(dat.data);
+    } else {
+      return findMessage(dat, key[0]);
+    }
+  }
+};
 // ! JANGAN DIMODIFIKASI
 module.exports = {
   modifyFile1,
