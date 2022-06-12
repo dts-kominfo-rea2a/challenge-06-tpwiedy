@@ -1,5 +1,6 @@
 // TODO: import module bila dibutuhkan di sini
 const fs = require("fs");
+
 // ! JANGAN DIMODIFIKASI
 let file1 = "./data1.json";
 let file2 = "./data2.json";
@@ -43,7 +44,7 @@ const readJsonFile = (jsonFile, array) => {
       } else {
         let res = JSON.parse(data);
         let dat = findMessage(res);
-        let datArray = dat.split("");
+        let datArray = dat.split(" ");
         datArray = datArray[1];
         array[i] = datArray;
         // push dataArray
@@ -72,6 +73,7 @@ const findMessage = (data, keys) => {
     }
   }
 };
+
 // ! JANGAN DIMODIFIKASI
 module.exports = {
   modifyFile1,
